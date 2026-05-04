@@ -2,8 +2,7 @@
 
 PORT=${1:-8080}
 
-echo "Building Docker image..."
-docker build -t stock-market-service .
+echo "Starting High-Availabiltiy Stock Exchange on localhost:$PORT..."
+APP_PORT=$PORT docker compose up --build -d
 
-echo "Starting Stock Exchange Service on localhost:$PORT..."
-docker run -p "$PORT":"$PORT" -e SERVER_PORT="$PORT" --rm stock-market-service
+echo "Service is booting up. Check status with 'docker compose ps'"
