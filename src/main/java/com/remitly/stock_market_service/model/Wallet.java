@@ -1,28 +1,35 @@
 package com.remitly.stock_market_service.model;
 
+import jakarta.persistence.*;
+import org.springframework.data.domain.Persistable;
+
+import java.util.ArrayList;
 import java.util.List;
 
-import jakarta.persistence.*;
-
 @Entity
-public class Wallet{
+public class Wallet implements Persistable<String> {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String id;
 
-    @ManyToMany
-    private List<Stock> stocks;
+    @OneToMany(mappedBy = "wallet", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<WalletStock> stocks = new ArrayList<>();
 
-    public Wallet(){
+    @Transient
+    private boolean isNew;
 
+    public Wallet() {}
+
+    public Wallet(String id) {
+        this.id = id;
+        this.isNew = true;
     }
 
-    public Wallet(List<Stock> stocks){
-        this.stocks = stocks;
-    }
+    @Override
+    public String getId() { return id; }
 
-    List<Stock> getStocks(){
-        return this.stocks;
-    }
+    @Override
+    public boolean isNew() { return isNew; }
+
+    public List<WalletStock> getStocks() { return stocks; }
 }

@@ -18,7 +18,4 @@ where port is the port you want to use.
 If you will not provide port, the default port is 8080.
 
 ### Database
-You can view the in-memory database in your browser.
-* URL: `http://localhost:<port>/h2-console`
-* JBDC URL: `jdbc:h2:mem:stockexchange`
-* USER: `sa` (no password)
+The application uses a PostgreSQL database running as a Docker container. No external database setup is required.

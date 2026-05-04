@@ -1,9 +1,9 @@
 package com.remitly.stock_market_service.service;
 
-import com.remitly.stock_market_service.model.Stock;
-
-import java.util.List;
+import com.remitly.stock_market_service.dto.SetStocksRequest;
+import com.remitly.stock_market_service.dto.StocksResponse;
 
 public interface StockService {
-    List<Stock> getAllStocks();
+    StocksResponse getAllStocks();
+    void setStocks(SetStocksRequest request);
 }
