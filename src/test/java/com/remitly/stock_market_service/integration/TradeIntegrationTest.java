@@ -13,12 +13,14 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.test.annotation.DirtiesContext;
 
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 class TradeIntegrationTest {
 
     @LocalServerPort int port;
@@ -111,8 +113,10 @@ class TradeIntegrationTest {
 
     @Test
     void buy_bankHasNoStock_returns400() {
-        rest.postForEntity(base + "/stocks",
-            new SetStocksRequest(List.of(new StockDto("Apple Inc.", 0))), Void.class);
+        ResponseEntity<Void> setupResp = rest.postForEntity(base + "/stocks",
+                new SetStocksRequest(List.of(new StockDto("Apple Inc.", 0))), Void.class);
+
+        assertThat(setupResp.getStatusCode()).isEqualTo(HttpStatus.OK); // This will fail!
 
         ResponseEntity<Void> resp = rest.postForEntity(
             base + "/wallets/alice/stocks/Apple Inc.",

@@ -32,10 +32,12 @@ public class StockServiceImpl implements StockService {
     @Override
     @Transactional
     public void setStocks(SetStocksRequest request) {
-        stockRepository.deleteAll();
+        // This sends the delete command to the DB immediately
+        stockRepository.deleteAllInBatch();
+
         List<Stock> newStocks = request.stocks().stream()
-            .map(dto -> new Stock(dto.name(), dto.quantity()))
-            .toList();
+                .map(dto -> new Stock(dto.name(), dto.quantity()))
+                .toList();
         stockRepository.saveAll(newStocks);
     }
 }
