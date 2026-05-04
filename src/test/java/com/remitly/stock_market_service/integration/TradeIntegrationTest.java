@@ -116,7 +116,7 @@ class TradeIntegrationTest {
         ResponseEntity<Void> setupResp = rest.postForEntity(base + "/stocks",
                 new SetStocksRequest(List.of(new StockDto("Apple Inc.", 0))), Void.class);
 
-        assertThat(setupResp.getStatusCode()).isEqualTo(HttpStatus.OK); // This will fail!
+        assertThat(setupResp.getStatusCode()).isEqualTo(HttpStatus.OK);
 
         ResponseEntity<Void> resp = rest.postForEntity(
             base + "/wallets/alice/stocks/Apple Inc.",
